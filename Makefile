@@ -29,9 +29,7 @@ go-mod-tidy:
 	rm -rf $(TMPDIR)
 	$(call log_success,Go mod check succeeded!)
 
-test/ci:
-	make test
-	make go-mod-tidy
+ci: test go-mod-tidy
 
 lint: ## Runs golangci-lint. It outputs to the code-climate json file in if CI is defined.
 	$(call log_info, Running golangci-lint)
