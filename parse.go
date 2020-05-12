@@ -3,6 +3,7 @@ package useragent
 
 import (
 	"errors"
+	"fmt"
 	"regexp"
 )
 
@@ -15,7 +16,7 @@ var userAgentRegex = regexp.MustCompile(`^(?P<name>\S+?)\/(?P<version>\S+?) \(Ki
 func Parse(userAgent string) (UserAgent, error) {
 	match := userAgentRegex.FindStringSubmatch(userAgent)
 	if match == nil {
-		return UserAgent{}, ErrInvalidFormat
+		return UserAgent{}, fmt.Errorf("%w: %q", ErrInvalidFormat, userAgent)
 	}
 	ua := UserAgent{
 		Name:        match[1],

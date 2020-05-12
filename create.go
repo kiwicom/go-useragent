@@ -10,27 +10,27 @@ import (
 var createInputRegex = regexp.MustCompile(`^\S+$`)
 
 // ErrNameInvalid is returned if the appName contains any whitespace characters
-var ErrNameInvalid = errors.New("invalid appName format")
+var ErrNameInvalid = errors.New("invalid appName")
 
 // ErrVersionInvalid is returned if the version contains any whitespace characters
-var ErrVersionInvalid = errors.New("invalid version format")
+var ErrVersionInvalid = errors.New("invalid version")
 
 // ErrEnvironmentInvalid is returned if the environment contains any whitespace characters
-var ErrEnvironmentInvalid = errors.New("invalid environment format")
+var ErrEnvironmentInvalid = errors.New("invalid environment")
 
 // Format will generate a useragent string which is compliant with RFC 22.
 func (ua *UserAgent) Format() (string, error) {
 	appNameMatch := createInputRegex.MatchString(ua.Name)
 	if !appNameMatch {
-		return "", ErrNameInvalid
+		return "", fmt.Errorf("error validating %q: %w", ua.Name, ErrNameInvalid)
 	}
 	versionMatch := createInputRegex.MatchString(ua.Version)
 	if !versionMatch {
-		return "", ErrVersionInvalid
+		return "", fmt.Errorf("error validating %q: %w", ua.Version, ErrVersionInvalid)
 	}
 	environmentMatch := createInputRegex.MatchString(ua.Environment)
 	if !environmentMatch {
-		return "", ErrEnvironmentInvalid
+		return "", fmt.Errorf("error validating %q: %w", ua.Environment, ErrEnvironmentInvalid)
 	}
 
 	var useragent strings.Builder
