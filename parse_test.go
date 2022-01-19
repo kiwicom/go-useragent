@@ -8,10 +8,21 @@ import (
 
 func TestParse(t *testing.T) {
 	happyPathTests := map[string]UserAgent{
-		"BALKAN/4704b82 (Kiwi.com sandbox)":                            UserAgent{Name: "BALKAN", Version: "4704b82", Environment: "sandbox", SystemInfo: ""},
-		"balkan/1.42.1 (Kiwi.com sandbox)":                             UserAgent{Name: "balkan", Version: "1.42.1", Environment: "sandbox", SystemInfo: ""},
-		"TRANSACTIONAL_MESSAGING_-_NEST_APP/1.42.1 (Kiwi.com sandbox)": UserAgent{Name: "TRANSACTIONAL_MESSAGING_-_NEST_APP", Version: "1.42.1", Environment: "sandbox", SystemInfo: ""},
-		"flights/b5bf54c32a112273245543a9eac0afdb8d8b32a5 (Kiwi.com jimbobjim-dev) requests/2.16.3 python/2.7.15": UserAgent{Name: "flights", Version: "b5bf54c32a112273245543a9eac0afdb8d8b32a5", Environment: "jimbobjim-dev", SystemInfo: "requests/2.16.3 python/2.7.15"},
+		"BALKAN/4704b82 (Kiwi.com sandbox)": {
+			Name: "BALKAN", Version: "4704b82", Environment: "sandbox", SystemInfo: "",
+		},
+		"balkan/1.42.1 (Kiwi.com sandbox)": {
+			Name: "balkan", Version: "1.42.1", Environment: "sandbox", SystemInfo: "",
+		},
+		"TRANSACTIONAL_MESSAGING_-_NEST_APP/1.42.1 (Kiwi.com sandbox)": {
+			Name: "TRANSACTIONAL_MESSAGING_-_NEST_APP", Version: "1.42.1", Environment: "sandbox", SystemInfo: "",
+		},
+		"flights/b5bf54c32a112273245543a9eac0afdb8d8b32a5 (Kiwi.com jimbobjim-dev) requests/2.16.3 python/2.7.15": {
+			Name:        "flights",
+			Version:     "b5bf54c32a112273245543a9eac0afdb8d8b32a5",
+			Environment: "jimbobjim-dev",
+			SystemInfo:  "requests/2.16.3 python/2.7.15",
+		},
 	}
 
 	for test, expected := range happyPathTests {
@@ -35,7 +46,7 @@ func TestParse(t *testing.T) {
 
 	for test, expected := range unhappyPathTests {
 		res, err := Parse(test)
-		assert.Equal(t, expected, err)
+		assert.Contains(t, err.Error(), expected.Error())
 		assert.Equal(t, UserAgent{}, res)
 	}
 }

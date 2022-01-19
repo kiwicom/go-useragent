@@ -26,7 +26,7 @@ func TestFormat(t *testing.T) {
 	}
 	for test, expected := range unhappyPathTests {
 		res, err := test.Format()
-		assert.Equal(t, expected, err)
+		assert.Contains(t, err.Error(), expected.Error())
 		assert.Equal(t, "", res)
 	}
 }
