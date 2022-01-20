@@ -9,14 +9,14 @@ import (
 
 var createInputRegex = regexp.MustCompile(`^\S+$`)
 
-// ErrNameInvalid is returned if the appName contains any whitespace characters
-var ErrNameInvalid = errors.New("invalid appName")
-
-// ErrVersionInvalid is returned if the version contains any whitespace characters
-var ErrVersionInvalid = errors.New("invalid version")
-
-// ErrEnvironmentInvalid is returned if the environment contains any whitespace characters
-var ErrEnvironmentInvalid = errors.New("invalid environment")
+var (
+	// ErrNameInvalid is returned if the appName contains any whitespace characters
+	ErrNameInvalid = errors.New("invalid appName")
+	// ErrVersionInvalid is returned if the version contains any whitespace characters
+	ErrVersionInvalid = errors.New("invalid version")
+	// ErrEnvironmentInvalid is returned if the environment contains any whitespace characters
+	ErrEnvironmentInvalid = errors.New("invalid environment")
+)
 
 // Format will generate a useragent string which is compliant with RFC 22.
 func (ua *UserAgent) Format() (string, error) {
