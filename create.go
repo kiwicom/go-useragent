@@ -20,17 +20,9 @@ var ErrEnvironmentInvalid = errors.New("invalid environment")
 
 // Format will generate a useragent string which is compliant with RFC 22.
 func (ua *UserAgent) Format() (string, error) {
-	appNameMatch := createInputRegex.MatchString(ua.Name)
-	if !appNameMatch {
-		return "", fmt.Errorf("error validating %q: %w", ua.Name, ErrNameInvalid)
-	}
-	versionMatch := createInputRegex.MatchString(ua.Version)
-	if !versionMatch {
-		return "", fmt.Errorf("error validating %q: %w", ua.Version, ErrVersionInvalid)
-	}
-	environmentMatch := createInputRegex.MatchString(ua.Environment)
-	if !environmentMatch {
-		return "", fmt.Errorf("error validating %q: %w", ua.Environment, ErrEnvironmentInvalid)
+	err := ua.Validate()
+	if err != nil {
+		return "", err
 	}
 
 	var useragent strings.Builder
@@ -44,4 +36,27 @@ func (ua *UserAgent) Format() (string, error) {
 	}
 
 	return useragent.String(), nil
+}
+
+var _ fmt.Stringer = UserAgent{}
+
+// String implements fmt.Stringer interface. It's a wrapper around
+// UserAgent.Format method. The `<invalid>` string is returned if any error
+// occurs during generation.
+func (ua UserAgent) String() string {
+	s, err := ua.Format()
+	if err != nil {
+		return "<invalid>"
+	}
+	return s
+}
+
+// MustFormat is like UserAgent.Format but panics if any errors occurred during generation.
+// It simplifies safe initialization of global variables holding default or prepared values of UserAgent.
+func (ua UserAgent) MustFormat() string {
+	s, err := ua.Format()
+	if err != nil {
+		panic(err)
+	}
+	return s
 }
