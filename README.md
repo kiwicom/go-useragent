@@ -1,5 +1,7 @@
 # Useragent
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/kiwicom/go-useragent.svg)](https://pkg.go.dev/github.com/kiwicom/go-useragent)
+
 Useragent formatter and parser based on User-Agent guidelines at Kiwi.com.
 
 ## About
